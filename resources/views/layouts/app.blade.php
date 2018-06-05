@@ -40,10 +40,78 @@
             'baseUrl' => url('/').'/'
         ]) !!};
     </script>
+
+    <!--PWA STEP 1-->
+    <link rel="manifest" href="manifest.json" />
+    <!-------------->
+
 </head>
 <body class="@yield('body_class')">
     @include('partials.header')
     @yield('content')
     @include('partials.footer')
+
+    <!--PWA STEP 2-->
+    <script type="text/javascript">
+
+    navigator.serviceWorker && navigator.serviceWorker.register('./service-worker.js').then(function(registration) {
+      console.log('Excellent, registered with scope: ', registration.scope);
+    });
+
+    </script>
+    <!-------------->
+
+    <!--PWA STEP 3-->
+    <script type="text/javascript">
+
+    //get public key and private key from https://web-push-codelab.glitch.me/
+    const publicKey = 'BAbFX3-MzGEDi1aE_p3x1QhsgcSv8vXN6XUI9jGwDxHkZNYlDCTIzFb-xMmoeJauTH_1NDlqEzwWzIUjRW0R0hU';
+
+    navigator.serviceWorker && navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {  
+        serviceWorkerRegistration.pushManager.getSubscription()  
+        .then(function(subscription) {  
+            // subscription will be null or a PushSubscription
+            if (subscription) {
+                console.info('Got existing', subscription);
+                window.subscription = subscription;
+                return;  // got one, yay
+            }
+
+            const applicationServerKey = urlB64ToUint8Array(publicKey);
+            serviceWorkerRegistration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey,
+            })
+            .then(function(subscription) { 
+                console.info('Subscribed to push!', JSON.stringify(subscription));
+                window.subscription = subscription;
+            }).catch(function(err) {
+                if (Notification.permission === 'denied') {
+                    console.warn('Permission for notifications was denied');
+                } else {
+                    console.error('Failed to subscribe the user: ', err);
+                }
+            });
+        });
+    });
+
+    function urlB64ToUint8Array(base64String) {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding)
+            .replace(/\-/g, '+')
+            .replace(/_/g, '/');
+
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+
+        for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+    }
+    
+    </script>
+    <!------------>
+
 </body>
 </html>

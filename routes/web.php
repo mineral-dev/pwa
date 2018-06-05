@@ -13,3 +13,4 @@
 
 Route::get('/','ArticleController@showArticles');
 Route::get('article/{id}','ArticleController@getArticle');
+Route::get('offline','OfflineController@showOffline');
