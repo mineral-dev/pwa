@@ -55,7 +55,7 @@
     <script type="text/javascript">
 
     navigator.serviceWorker && navigator.serviceWorker.register('./service-worker.js').then(function(registration) {
-      console.log('Excellent, registered with scope: ', registration.scope);
+      console.log('Service Worker berhasil diinstall');
     });
 
     </script>
@@ -64,17 +64,18 @@
     <!--PWA STEP 3-->
     <script type="text/javascript">
 
-    //get public key and private key from https://web-push-codelab.glitch.me/
+    //dapatkan public key and private key dari https://web-push-codelab.glitch.me/
     const publicKey = 'BAbFX3-MzGEDi1aE_p3x1QhsgcSv8vXN6XUI9jGwDxHkZNYlDCTIzFb-xMmoeJauTH_1NDlqEzwWzIUjRW0R0hU';
 
     navigator.serviceWorker && navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {  
         serviceWorkerRegistration.pushManager.getSubscription()  
         .then(function(subscription) {  
-            // subscription will be null or a PushSubscription
+            
+            // check apabila object PushSubscription sudah ada
             if (subscription) {
-                console.info('Got existing', subscription);
+                console.info('subscription sudah ada', JSON.stringify(subscription));
                 window.subscription = subscription;
-                return;  // got one, yay
+                return;  // Subscription sudah ada
             }
 
             const applicationServerKey = urlB64ToUint8Array(publicKey);
@@ -87,9 +88,9 @@
                 window.subscription = subscription;
             }).catch(function(err) {
                 if (Notification.permission === 'denied') {
-                    console.warn('Permission for notifications was denied');
+                    console.warn('Perimission Notifikasi ditolak');
                 } else {
-                    console.error('Failed to subscribe the user: ', err);
+                    console.error('Gagal untuk subscribe push : ', err);
                 }
             });
         });
