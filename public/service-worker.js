@@ -9,8 +9,11 @@ self.addEventListener('install', function(event) {
 
 self.addEventListener('fetch', function(event) {
   event.respondWith(
-    fetchAndCache(event.request)
-  )
+    caches.match(event.request)
+    .then(function(response) {
+      return response || fetchAndCache(event.request);
+    })
+  );
 });
 
 function fetchAndCache(url) {
@@ -28,10 +31,8 @@ function fetchAndCache(url) {
   })
   .catch(function(error) {
     console.log('Request failed:', error);
-    // try return from cache, if not found return offline page
-    return caches.match(url).then(function(response) {
-      return response || caches.match(OFFLINE_URL)
-    })
+    // return custom offline page
+    return caches.match(OFFLINE_URL);
   });
 }
 
