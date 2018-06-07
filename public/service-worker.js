@@ -1,3 +1,4 @@
+//todo 7
 var CACHE_NAME = 'pwa-cache';
 var OFFLINE_URL = 'offline';
 
@@ -36,6 +37,9 @@ function fetchAndCache(url) {
   });
 }
 
+//end todo 7
+
+//todo 6
 self.addEventListener('push', function(event) {
 	
 	var payload = event.data.text();
