@@ -29,6 +29,9 @@
             {{ config('app.name') }}
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!--Todo 1-->
+
     <meta name="description" content="Mineral PWA Lab">
     <base href="{{ url('/').'/' }}" />
     <link rel="icon" type="image/png" href="assets/icon/icon.png">
@@ -45,5 +48,9 @@
     @include('partials.header')
     @yield('content')
     @include('partials.footer')
+
+    <!--Todo 4-->
+
+    <!--Todo 5-->
 </body>
 </html>
