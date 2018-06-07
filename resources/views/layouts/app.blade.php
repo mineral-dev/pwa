@@ -41,7 +41,7 @@
         ]) !!};
     </script>
 
-    <!--PWA STEP 1-->
+    <!--Todo 1-->
     <link rel="manifest" href="manifest.json" />
     <!-------------->
 
@@ -51,7 +51,7 @@
     @yield('content')
     @include('partials.footer')
 
-    <!--PWA STEP 2-->
+    <!--Todo 4-->
     <script type="text/javascript">
 
     navigator.serviceWorker && navigator.serviceWorker.register('./service-worker.js').then(function(registration) {
@@ -61,7 +61,7 @@
     </script>
     <!-------------->
 
-    <!--PWA STEP 3-->
+    <!--Todo 5-->
     <script type="text/javascript">
 
     //dapatkan public key and private key dari https://web-push-codelab.glitch.me/
