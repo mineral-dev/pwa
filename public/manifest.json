@@ -2,7 +2,7 @@
   "name": "Situs Berita terbaik",
   "short_name": "Berita.com",
   "display": "standalone",
-  "start_url": "/pwa/public/",
+  "start_url": "/pwa/public/", // sesuaikan dengan path folder
   "theme_color": "#ffcc00",
   "background_color": "#111111",
   "icons": [
